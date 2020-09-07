@@ -1,0 +1,187 @@
+<odoo>
+  <data>
+    <record id="purchase_order_hmg.custom_form_hmg" model="ir.ui.view">
+      <field name="name">purchase.order.hmg.custom.form</field>
+      <field name="model">purchase.order</field>
+      <field name='inherit_id' ref='purchase.purchase_order_form'/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_ref']" position="after">
+          <field name="ship_via" options="{'no_create': False, 'no_create_edit':False}" />
+          <field name="prepared"/>
+          <field name="employee"/>
+        </xpath>
+        <xpath expr="//field[@name='date_order']" position="after">
+          <field name="oc1"/>
+          <field name="oc2" string=" "/>
+          <field name="payment" widget="radio"/>
+        </xpath>
+        <xpath expr="//field[@name='notes']" position="replace">
+          <field name="expirate"/>          
+        </xpath>
+      </field>
+    </record>
+
+    <template id="purchase_order_hmg.custom_report_hmg" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+          <t t-call="web.external_layout">
+            <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+            <div style="text-align: center;">ORDEN DE COMPRA</div>
+            <div id="header" class="row mt32 mb32">
+              <div t-if="o.company_id" class="col-8">
+                <span t-field="o.company_id.street"/>, <span t-field="o.company_id.street2"/><br/>
+                <span t-field="o.company_id.city"/><br/>
+                Tel. (507) <span t-field="o.company_id.phone"/><br/>
+                P.O. BOX. 816-4749
+              </div>
+              <div t-if="o.company_id" class="col-4" style="text-align: right; font-size: 10px;">
+                Código: <span t-field="o.company_id.p_cod_id"/><br/>
+                Version: <span t-field="o.company_id.p_cod_version"/><br/>
+                Fecha: <span t-field="o.company_id.p_cod_date"/><br/>
+              </div>
+            </div>
+            <div class="page">
+              <div class="oe_structure"/>
+              <div id="informations" class="row mt32 mb32">
+                  <div t-if="o.partner_id" class="col-3">
+                      <strong>Proveedor:</strong>
+                      <strong><p t-field="o.partner_id" class="m-0"/></strong>
+                  </div>
+                <div t-if="o.partner_ref" class="col-3 bm-2">
+                      <!--<strong>Your Order Reference:</strong>
+                      <p t-field="o.partner_ref" class="m-0"/>-->
+                  </div>
+                  <div t-if="o.partner_id" class="col-3">
+                      <!--<strong>Proveedor:</strong>
+                      <p t-field="o.partner_id" class="m-0"/>-->
+                  </div>
+                  <div t-if="o.name" class="col-3">
+                      <strong>Orden de compra:</strong>
+                      <strong><p t-field="o.name" class="m-0"/></strong>
+                  </div>
+              </div>
+              <div id="informations" class="row mt32 mb32">
+                <div t-if="o.partner_id" class="col-3 bm-2">
+                    <strong>Consignado a:</strong>
+                    <strong><p t-field="o.company_id.name" class="m-0"/></strong>
+                    <strong><p t-field="o.company_id.street" class="m-0"/></strong>
+                </div>
+                <div t-if="o.ship_via" class="col-3 bm-2">
+                    <strong>Enviar a:</strong>
+                    <strong><p t-field="o.ship_via" class="m-0"/></strong>
+                </div>
+                <div t-if="o.date_order" class="col-3">
+                      <strong>Fecha:</strong>
+                      <strong><p t-field="o.date_order" class="m-0"/></strong>
+                  </div>
+                <div t-if="o.oc1" class="col-3 bm-2">
+                    <strong><p t-field="o.oc1" class="m-0"/></strong>
+                    <strong><p t-field="o.oc2" class="m-0"/></strong>
+                </div>
+              </div>
+
+              <table class="table table-sm o_main_table">
+                  <thead>
+                      <tr>
+                          <th class="text-center"><strong>CANT</strong></th>
+                          <th class="text-center"><strong>CATALOGO</strong></th>
+                          <th class="text-center"><strong>UND</strong></th>
+                          <th class="text-left"><strong>DESCRIPCION</strong></th>
+                          <th class="text-center"><strong>PRECIO UNIDAD</strong></th>
+                          <th class="text-center"><strong>TOTAL</strong></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <t t-set="current_subtotal" t-value="0"/>
+                      <t t-foreach="o.order_line" t-as="line">
+                          <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                          <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                          <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                              <t t-if="not line.display_type">
+                                  <td class="text-center">
+                                      <span t-field="line.product_qty"/>
+                                  </td>
+                                  <td id="Catalogo" class="text-center">
+                                      <span t-field="line.product_id.default_code"/>
+                                  </td>
+                                  <td class="text-center">
+                                      <span t-field="line.product_uom"/>
+                                  </td>
+                                  <td id="product">
+                                      <span t-field="line.name"/> 
+                                  </td>
+                                  <td class="text-center">
+                                      <span t-field="line.price_unit"/>
+                                  </td>
+                                  <td class="text-right">
+                                      <span t-field="line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                                  </td>
+                              </t>
+                              <t t-if="line.display_type == 'line_section'">
+                                  <td colspan="99" id="section">
+                                      <span t-field="line.name"/>
+                                  </td>
+                                  <t t-set="current_section" t-value="line"/>
+                                  <t t-set="current_subtotal" t-value="0"/>
+                              </t>
+                              <t t-if="line.display_type == 'line_note'">
+                                  <td colspan="99" id="note">
+                                      <span t-field="line.name"/>
+                                  </td>
+                              </t>
+                          </tr>
+                          <t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
+                              <tr class="is-subtotal text-right">
+                                  <td colspan="99" id="subtotal">
+                                      <strong class="mr16">Subtotal</strong>
+                                      <span t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                                  </td>
+                              </tr>
+                          </t>
+                      </t>
+                  </tbody>
+              </table>
+
+              <div id="total" class="row justify-content-end">
+                  <div class="col-4">
+                      <table class="table table-sm">
+                          <tr class="border-black">
+                              <td><strong>Subtotal</strong></td>
+                              <td class="text-right">
+                                  <span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>Impuesto</td>
+                              <td class="text-right">
+                                  <span t-field="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                              </td>
+                          </tr>
+                          <tr class="border-black o_total">
+                              <td><strong>Total</strong></td>
+                              <td class="text-right">
+                                  <span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+              </div>
+
+              <p t-field="o.expirate"/>
+              <strong>
+                Metodo de pago:
+              </strong>
+              <br></br>
+              <input type="checkbox" checked="checked"/> <span string="Metodo de pago:" t-field="o.payment"/>
+              <br></br>
+              <br></br>
+              <strong>Vendedor: </strong> <span t-field="o.employee"/>
+              <br></br>
+              <strong>Preparado por: </strong> <span t-field="o.prepared"/>
+              <div class="oe_structure"/>
+            </div>
+          </t>
+        </xpath>
+    </template>
+  </data>
+</odoo>

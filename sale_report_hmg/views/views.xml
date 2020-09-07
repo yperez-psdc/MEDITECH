@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+    <record id="sale_report_hmg.custom_form_hmg" model="ir.ui.view">
+      <field name="name">sale.report.hmg.custom.form</field>
+      <field name="model">sale.order</field>
+      <field name='inherit_id' ref='sale.view_order_form'/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='payment_term_id']" position="after">
+          <field name="typeprice" options="{'no_create': False, 'no_create_edit':False}" />
+          <field name="valofert" options="{'no_create': False, 'no_create_edit':False}" />
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

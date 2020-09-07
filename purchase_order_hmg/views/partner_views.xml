@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+        <record id="purchase_order_hmg.custom_partner" model="ir.ui.view">
+            <field name="name">purchase.order.hmg.custom.partner</field>
+            <field name="model">res.company</field>
+            <field name='inherit_id' ref='base.view_company_form'/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[1]" position="after">
+                    <page string="Codigos Corporativos">
+                        <group>
+                            <group string="Compras">
+                                <field name="p_cod_id"/>
+                                <field name="p_cod_version"/>
+                                <field name="p_cod_date"/>
+                            </group>
+                            <group string="Facturas">
+                                <field name="fac_cod_id"/>
+                                <field name="fac_cod_version"/>
+                                <field name="fac_cod_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Ventas">
+                                <field name="sale_cod_id"/>
+                                <field name="sale_cod_version"/>
+                                <field name="sale_cod_date"/>
+                            </group>
+                            <group string="Orden de Entrega">
+                                <field name="de_cod_id"/>
+                                <field name="de_cod_version"/>
+                                <field name="de_cod_date"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
