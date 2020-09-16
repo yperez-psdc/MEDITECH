@@ -82,10 +82,10 @@
               <table class="table table-sm o_main_table">
                   <thead>
                       <tr>
-                          <th class="text-center"><strong>CANT</strong></th>
                           <th class="text-center"><strong>CATALOGO</strong></th>
-                          <th class="text-center"><strong>UND</strong></th>
                           <th class="text-left"><strong>DESCRIPCION</strong></th>
+                          <th class="text-center"><strong>CANT</strong></th>
+                          <th class="text-center"><strong>UND</strong></th>
                           <th class="text-center"><strong>PRECIO UNIDAD</strong></th>
                           <th class="text-center"><strong>TOTAL</strong></th>
                       </tr>
@@ -98,17 +98,17 @@
 
                           <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
                               <t t-if="not line.display_type">
-                                  <td class="text-center">
-                                      <span t-field="line.product_qty"/>
-                                  </td>
                                   <td id="Catalogo" class="text-center">
                                       <span t-field="line.product_id.default_code"/>
                                   </td>
-                                  <td class="text-center">
-                                      <span t-field="line.product_uom"/>
-                                  </td>
                                   <td id="product">
                                       <span t-field="line.name"/> 
+                                  </td>
+                                  <td class="text-center">
+                                      <span t-field="line.product_qty"/>
+                                  </td>
+                                  <td class="text-center">
+                                      <span t-field="line.product_uom"/>
                                   </td>
                                   <td class="text-center">
                                       <span t-field="line.price_unit"/>
