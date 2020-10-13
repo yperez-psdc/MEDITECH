@@ -16,7 +16,8 @@
           <field name="payment" widget="radio"/>
         </xpath>
         <xpath expr="//field[@name='notes']" position="replace">
-          <field name="expirate"/>          
+          <field name="expirate"/> 
+          <field name="expirate2"/>           
         </xpath>
       </field>
     </record>
@@ -168,6 +169,7 @@
               </div>
 
               <p t-field="o.expirate"/>
+              <p t-field="o.expirate2"/>
               <strong>
                 Metodo de pago:
               </strong>
@@ -175,9 +177,9 @@
               <input type="checkbox" checked="checked"/> <span string="Metodo de pago:" t-field="o.payment"/>
               <br></br>
               <br></br>
-              <strong>Vendedor: </strong> <span t-field="o.employee"/>
+              <strong>Solicitado por: </strong> <span t-field="o.employee"/>
               <br></br>
-              <strong>Preparado por: </strong> <span t-field="o.prepared"/>
+              <strong>Aprobado por: </strong> <span t-field="o.prepared"/>
               <div class="oe_structure"/>
             </div>
           </t>

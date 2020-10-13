@@ -15,6 +15,11 @@ class purchase_order_hmg(models.Model):
         string="Terminos:",
         required=False
     )
+    expirate2 = fields.Many2one(
+        "exp.date",
+        string="Terminos:",
+        required=False
+    )
     oc1 = fields.Selection(
         string="O/C",
         required=False,
@@ -55,7 +60,7 @@ class ShipVia(models.Model):
 class ExpDate(models.Model):
     _name = 'exp.date'
 
-    name = fields.Char(
+    name = fields.Text(
         string="Texto",
         requerid=False
     )
