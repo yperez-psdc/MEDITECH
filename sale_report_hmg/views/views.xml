@@ -9,6 +9,19 @@
           <field name="typeprice" options="{'no_create': False, 'no_create_edit':False}" />
           <field name="valofert" options="{'no_create': False, 'no_create_edit':False}" />
         </xpath>
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="ftecnica"/>
+        </xpath>
+      </field>
+    </record>
+    <record id="sale_report_hmg.custom_form_product_hmg" model="ir.ui.view">
+      <field name="name">sale.report.hmg.custom.product.form</field>
+      <field name="model">product.template</field>
+      <field name='inherit_id' ref='product.product_template_only_form_view'/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='default_code']" position="after">
+          <field name="ftecnica"/>
+        </xpath>
       </field>
     </record>
   </data>

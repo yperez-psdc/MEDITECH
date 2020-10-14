@@ -16,7 +16,21 @@ class SaleOrder(models.Model):
         string="Validez de la oferta",
         required=True
     )
-    
+
+    ftecnica = fields.Boolean(
+        string="Ficha Tecnica",
+        required=False
+    )
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    ftecnica = fields.Char(
+        string="Ficha Tecnica",
+        required=False
+    )
+
+
 class TypePrice(models.Model):
     _name = 'type.price'
 

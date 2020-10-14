@@ -78,6 +78,7 @@
                                 <tr>
                                     <th name="th_quantity" class="text-right">CANT</th>
                                     <th name="th_catalogo" class="text-center">CATALOGO/CTNI</th>
+                                    <th t-if="doc.ftecnica" name="th_ftecnica" class="text-center">FICHA TECNICA</th>
                                     <th name="th_description" class="text-left">DESCRIPCION</th>
                                     <th name="th_priceunit" class="text-right">P/UNIT</th>
                                     <th name="th_total" class="text-right">TOTAL</th>
@@ -98,6 +99,9 @@
                                                 <span t-field="line.product_uom_qty"/>
                                             </td>
                                             <td name="td_catalogo" class="text-center"><span t-field="line.product_id.default_code"/></td>
+                                            <t t-if="line.product_id.ftecnica and doc.ftecnica">
+                                                <td name="td_ftecnica" class="text-center"><span t-field="line.product_id.ftecnica"/></td>
+                                            </t>
                                             <td name="td_name"><span t-field="line.name"/></td>
                                             <td name="td_priceunit" class="text-right">
                                                 <span t-field="line.price_unit"/>
